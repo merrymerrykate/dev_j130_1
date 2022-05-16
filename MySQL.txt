@@ -1,0 +1,19 @@
+CREATE TABLE Authors (id INTEGER PRIMARY KEY AUTO_INCREMENT, person VARCHAR(64) NOT NULL, comments VARCHAR(255));
+
+INSERT INTO Authors (person, comments) VALUES ('Arnold Grey', '-');
+INSERT INTO Authors (person, comments) VALUES ('Tom Hawkins', 'new author');
+INSERT INTO Authors (person, comments) VALUES ('Jim Beam', '-');
+
+CREATE TABLE Documents (id INTEGER PRIMARY KEY AUTO_INCREMENT, docName VARCHAR(64) NOT NULL, docText VARCHAR(1024), docDate DATE NOT NULL,
+idAuthor INTEGER NOT NULL, FOREIGN KEY (idAuthor) REFERENCES Authors(id));
+
+INSERT INTO Documents (docName, docText, docDate, idAuthor) VALUES ('Project plan', 'First content', '2021-12-24', 1);
+INSERT INTO Documents (docName, docText, docDate, idAuthor) VALUES ('First report', 'Second content', '2020-10-27', 2);
+INSERT INTO Documents (docName, docText, docDate, idAuthor) VALUES ('Test result', 'Third content', '2021-01-02', 2);
+INSERT INTO Documents (docName, docText, docDate, idAuthor) VALUES ('Second report', 'Report content', '2019-05-15', 3);
+
+UPDATE Authors SET comments='No data' WHERE comments='-';
+
+SELECT Authors.person, Documents.docName FROM Documents RIGHT JOIN Authors ON Authors.id=Documents.idAuthor WHERE Authors.person='Tom Hawkins';
+
+SELECT Documents.id, Documents.docName, Authors.person FROM Documents RIGHT JOIN Authors ON Authors.id=Documents.idAuthor WHERE Documents.docName LIKE ('%report%');
